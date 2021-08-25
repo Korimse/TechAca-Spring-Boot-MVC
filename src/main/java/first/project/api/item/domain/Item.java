@@ -1,7 +1,10 @@
 package first.project.api.item.domain;
 
 import first.project.api.order.domain.Order;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,10 +13,12 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "items")
+@NoArgsConstructor
 public class Item {
 
     @Id
     @Column(name="item_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long itemId;
 
     @Column(name = "item_brand")
@@ -36,4 +41,14 @@ public class Item {
 
     @OneToMany(mappedBy = "item")
     private List<Order> orders = new ArrayList<>();
+
+    @Builder
+    public Item(String  itemBrand, String itemName, String itemColor){
+        this.itemBrand = itemBrand;
+        this.itemName = itemName;
+        this.itemColor = itemColor;
+    }
+
+    @Override public String toString(){
+        return String.format("아이템 스펙: %s, %s, %s ",itemBrand, itemName,itemColor);}
 }

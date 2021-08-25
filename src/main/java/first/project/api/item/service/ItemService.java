@@ -15,4 +15,5 @@ public interface ItemService {
     long count();
     void deleteById(long id);
     void save(Item item);
+    void deleteAll();
 }

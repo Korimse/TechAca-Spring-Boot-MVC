@@ -2,6 +2,7 @@ package first.project.api.user.service;
 
 import first.project.api.user.domain.User;
 import first.project.api.user.repository.UserRepository;
+import first.project.api.util.Proxy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends Proxy implements UserService {
 
     private final UserRepository userRepository;
 

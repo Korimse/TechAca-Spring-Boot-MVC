@@ -7,10 +7,26 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+    generate-ddl: true
+
+security:
+  jwt:
+    token:
+      security-key: secret-key
+
+      expiration-length: 3600000
+
+  upload:
+    path: C:\update
+
+UserController:
+  signup: Creates user and returns its JWT token
+  signin: Authenticates user and returns its JWT token
 
 server:
   port: 8080
+
