@@ -1,6 +1,7 @@
 package first.project.api.user.service;
 
 import first.project.api.user.domain.User;
+import first.project.api.user.domain.UserDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface UserService {
     long count();
     void deleteById(long id);
     void save(User user);
+    String signup(User user);
+    UserDto signin(User user);
+
 }

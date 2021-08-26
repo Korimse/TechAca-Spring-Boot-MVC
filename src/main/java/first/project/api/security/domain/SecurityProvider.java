@@ -1,5 +1,6 @@
 package first.project.api.security.domain;
 
+import first.project.api.user.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

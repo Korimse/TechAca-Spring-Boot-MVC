@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,23 +22,27 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
+@SpringBootConfiguration
 @ExtendWith(MockitoExtension.class)
 class ItemServiceImplTest {
 
-    @Mock private ItemRepository itemRepository;
-    private ItemServiceImpl itemService;
+    @Autowired private ItemRepository itemRepository;
+    @Autowired private ItemServiceImpl itemService;
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.initMocks(this);
         itemService = new ItemServiceImpl(itemRepository);
     }
 
     @Test
     void findAll() {
-        Item item = Item.builder().itemBrand("ItemA").itemName("ItemName").itemColor("black").build();
-        given(itemRepository.save(item)).willReturn(null);
-        System.out.println(itemService.findAll().size());
+        Item item = Item.builder().itemBrand("A").itemName("B").itemColor("C").build();
+        assertThat(item.getItemName(), is(equalTo("B")));
+        itemService.save(item);
+        verify(itemRepository).save(item);
     }
 
     @Test
