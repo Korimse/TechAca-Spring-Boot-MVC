@@ -1,7 +1,11 @@
 package first.project.api.security.aop;
 
 import first.project.api.security.domain.SecurityProvider;
+import first.project.api.security.exception.SecurityRuntimeException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.web.configurers.SecurityContextConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,6 +20,20 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String token = provider.resolveToken(request);
+        try{
+            if (token != null && provider.validateToken(token)) {
+                Authentication auth = provider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        } catch (SecurityRuntimeException ex) {
+            SecurityContextHolder.clearContext();
+            response.sendError(ex.getHttpStatus().value(), ex.getMessage());
+            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        filterChain.doFilter(request, response);
     }
 }

@@ -30,8 +30,6 @@ public class UserServiceImpl extends Proxy implements UserService {
     private final AuthenticationManager manager;
     private final ModelMapper modelMapper;
 
-
-
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
